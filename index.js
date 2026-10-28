@@ -26,6 +26,7 @@ export async function connectToMongoDB() {
 const mongoClient = await connectToMongoDB();
 const db = mongoClient.db('wanderlust');
 const destinationCollection = db.collection('destination')
+const bookingCollection = db.collection('bookings')
 
 
 //http://localhost:8000/add-destination
@@ -68,7 +69,12 @@ app.get('/', (req, res) => {
   res.send('Hello world')
 });
 
-
+//http://localhost:8000/booking
+app.post('/booking', async (req, res) => {
+  const data = req.body
+  const result = await bookingCollection.insertOne(data);
+  res.send(result)
+});
 
 
 app.listen(port, () => {
