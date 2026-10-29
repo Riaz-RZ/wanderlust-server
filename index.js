@@ -76,6 +76,19 @@ app.post('/booking', async (req, res) => {
   res.send(result)
 });
 
+//http://localhost:8000/my-bookings/:email
+app.get('/my-bookings/:email', async (req, res) => {
+  const { email } = req.params
+  const result = await bookingCollection.find({ email: email }).toArray()
+  res.send(result)
+})
+
+app.delete('/my-bookings/:id', async (req, res) => {
+  const {id} = req.params
+  const result = await bookingCollection.deleteOne({_id: id})
+  res.send(result)
+})
+
 
 app.listen(port, () => {
   console.log(`app is listening to the port: ${port}`);
