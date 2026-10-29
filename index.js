@@ -67,20 +67,25 @@ app.get('/destinations', async (req, res) => {
   res.send(result);
 })
 
+app.get('/featured-destinations', async (req, res) => {
+  const result = await destinationCollection.find().limit(5).toArray();
+  res.send(result);
+})
+
 app.get('/destination/:id', verifyToken, async (req, res) => {
   const { id } = req.params
   const result = await destinationCollection.findOne({ _id: new ObjectId(id) })
   res.send(result);
 })
 
-app.patch('/destination/:id',verifyToken, async (req, res) => {
+app.patch('/destination/:id', verifyToken, async (req, res) => {
   const { id } = req.params
   const updatedData = req.body
   const result = await destinationCollection.updateOne({ _id: new ObjectId(id) }, { $set: updatedData })
   res.json(result)
 })
 
-app.delete('/destination/:id',verifyToken, async (req, res) => {
+app.delete('/destination/:id', verifyToken, async (req, res) => {
   const { id } = req.params
   const result = await destinationCollection.deleteOne({ _id: new ObjectId(id) })
   res.json(result)
